@@ -26,3 +26,7 @@ launch_config: <CowTipping_LC>
 autoscaling_group: <CowTipping_ASG>
 
 # the AWS region to use, for the gameday please use eu-central-1
+
+
+# Lambda function name
+function_name: CowTipping_Lambda
