@@ -1,0 +1,14 @@
+{
+  "Id": "GamedayObjectDeliveryPolicy",
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": ["sqs:SendMessage"],
+      "Effect": "Allow",
+      "Resource": "arn:aws:sqs:{{ region }}:*:{{ team_name }}-gameday",
+      "Principal": {
+        "AWS": ["336189371117"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+---
+- set_fact:
+    iam_exec_role: "{{ iam_exec_arn }}" 
+    function_name: sqs-message-processor
+
+- name: AWS Lambda Function
+  lambda:
+    region: eu-central-1
+    name: "{{ function_name }}"
+    description: lambda function to take unicorn rental messages and send them to the scoring API
+    zip_file: "{{ sqs_deployment_package }}"
+    runtime: python2.7
+    timeout: 20
+    handler: "{{ sqs_filename }}.handle"
+    memory_size: 1024
+    role: "{{ iam_exec_role }}"
+  register: lambda_results
+
+- name: "alias 'dev' for function {{ function_name }}"
+  lambda_alias:
+    region: eu-central-1
+    function_name: "{{ function_name }}"
+    name: dev
+    description: Development is always the $LATEST version
+  register: alias
+
+- cloudwatchevent_rule:
+    name: check-sqs-rule
+    state: present
+    schedule_expression: rate(1 minute)
+    region: eu-central-1
+    role_arn: "{{ iam_exec_role }}"
+    targets:
+      - id: MyFunction
+        arn: "{{ alias.alias_arn }}"

@@ -1,0 +1,5 @@
+---
+- sqs_queue:
+    name: "gd-sqs-queue"
+    region: eu-central-1
+    policy: "{{ lookup('template', 'templates/queue_policy.json') }}"

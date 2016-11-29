@@ -1,0 +1,62 @@
+---
+- ec2_vpc:
+    state: present
+    region: "{{ region }}"
+    cidr_block: 172.16.0.0/16
+    resource_tags:
+      tool: ansible
+      Name: "{{ team_name }}-vpc"
+    subnets:
+      - cidr: 172.16.1.0/24
+        az: "{{ region }}a"
+        resource_tags:
+          tool: ansible
+          Name: subnet-a
+      - cidr: 172.16.2.0/24
+        az: "{{ region }}b"
+        resource_tags:
+          tool: ansible
+          Name: subnet-b
+    internet_gateway: True
+    route_tables:
+      - subnets:
+         - 172.16.1.0/24
+         - 172.16.2.0/24
+        routes:
+          - dest: 0.0.0.0/0
+            gw: igw
+  register: network
+- debug: msg="Created VPC named unicorn-vpc with 3 available subnets"
+- debug: msg="{{ network.vpc_id }}"
+- ec2_group:
+    name: webservers
+    region: "{{ region }}"
+    description: Security group to allow public web traffic to the unicorn.rentals API
+    vpc_id: "{{ network.vpc_id }}"
+    rules:
+      - proto: tcp
+        from_port: 80
+        to_port: 80
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 443
+        to_port: 443
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 8080
+        to_port: 8080
+        cidr_ip: 0.0.0.0/0
+  register: web_sg
+- debug: msg="Created VPC security group called webservers, ID {{ web_sg.group_id }} to take web traffic"
+- ec2_group:
+    name: public-ssh
+    region: "{{ region }}"
+    description: Security group for public SSH traffic (you may want to restrict this a bit...)
+    vpc_id: "{{ network.vpc_id }}"
+    rules:
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: 0.0.0.0/0
+  register: ssh_sg
+- debug: msg="Created VPC security group called public-ssh, ID {{ ssh_sg.group_id }} for granting SSH access to servers."

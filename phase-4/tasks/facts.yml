@@ -1,0 +1,43 @@
+---
+- name: gather facts about current infrastructure
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+  - name: get cloudformation stack facts
+    cloudformation_facts:
+      stack_name: base-infrastructure
+      all_facts: true
+      region: 'eu-central-1'
+
+  - debug: var=cloudformation
+
+  - debug: var=cloudformation['base-infrastructure'].stack_resources
+
+  - name: get more ec2 instance facts
+    ec2_remote_facts:
+      region: 'eu-central-1'
+      filters:
+        instance-id: "{{cloudformation['base-infrastructure'].stack_resources.EC2Instance}}"
+    register: instance_facts
+
+  - debug: var=instance_facts
+
+  - name: gather facts about vpc
+    ec2_vpc_net_facts:
+      region: 'eu-central-1'
+      filters:
+        vpc-id: "{{instance_facts['instances'][0].vpc_id}}"
+    register: vpc_facts
+
+  - debug: var=vpc_facts
+
+  - name: gather facts about vpc subnets
+    ec2_vpc_subnet_facts:
+      region: 'eu-central-1'
+      filters:
+        vpc-id: "{{instance_facts['instances'][0].vpc_id}}"
+    register: vpc_subnet_facts
+
+  - debug: var=vpc_subnet_facts
