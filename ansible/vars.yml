@@ -30,3 +30,4 @@ autoscaling_group: <CowTipping_ASG>
 
 # Lambda function name
 function_name: CowTipping_Lambda
+iam_exec_arn: arn:aws:iam::097478322454:role/qls-624321-0ecc199ed24a65d1-PlayerRole-O5E7IIBGBM9T

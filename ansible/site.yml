@@ -1,8 +1,13 @@
 ---
 - hosts: localhost
   connection: local
-  gather_facts: false
+  gather_facts: true
   tasks:
   - include_vars: vars.yml
   - include: tasks/networks.yml
   - include: tasks/server.yml
+  - include: tasks/dynamodb.yml
+  - include: tasks/kinesis.yml
+  - include: tasks/s3.yml
+  - include: tasks/sqs.yml
+  - include: tasks/lambda_something.yml
