@@ -1,0 +1,5 @@
+---
+- sqs_queue:
+    name: "{{ team_name }}-gameday"
+    region: eu-central-1
+    policy: "{{ lookup('template', 'templates/queue_policy.json') }}"

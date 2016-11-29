@@ -1,0 +1,8 @@
+---
+- s3_bucket:
+    name: "{{ team_name }}-gameday"
+    region: eu-central-1
+    policy: "{{ lookup('template', 'templates/bucket_policy.json') }}"
+    versioning: no
+    tags:
+      tool: ansible
