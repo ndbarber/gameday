@@ -61,6 +61,7 @@ def store_message(input_id, part_num, data):
             },
             ConditionExpression="attribute_not_exists(#p)"
         )
+        return True
     except Exception:
         # conditional update failed since we have already processed this message
         # at this point we can bail since we don't want to process again
@@ -106,7 +107,9 @@ def build_final(parts, msg_id):
     building the response to return to the server
     """
     # We can build the final message.
-    result = parts['0'] + parts['1']
+    result = ""
+    for part in parts:
+        result = result + part
     # sending the response to the score calculator
     # format:
     #   url -> api_base/jFgwN4GvTB1D2QiQsQ8GHwQUbbIJBS6r7ko9RVthXCJqAiobMsLRmsuwZRQTlOEW
