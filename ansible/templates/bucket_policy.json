@@ -5,7 +5,7 @@
     {
       "Action": ["s3:PutObject"],
       "Effect": "Allow",
-      "Resource": "arn:aws:s3:::{{ team_name }}-gameday/*",
+      "Resource": "arn:aws:s3:::{{ s3_name }}-gameday/*",
       "Principal": {
         "AWS": ["336189371117"]
       }

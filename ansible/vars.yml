@@ -3,6 +3,7 @@
 # names of things, so take some time to come up with a good one.
 # Don't take BuffaloBill, because that's mine.
 team_name: "Cow Tipping Dwarves"
+s3_name: "cow-tipping-dwarves"
 
 scoring:
   # In your gameday team dashboard, there will be an API token that looks like
