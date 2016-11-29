@@ -10,8 +10,8 @@ import boto3
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
-API_BASE = {{ scoring.url }}
-API_TOKEN = {{ scoring.api_token }}
+API_BASE = "https://dashboard.cash4code.net/score"
+API_TOKEN = "45404968fe"
 
 DYNAMODB = boto3.resource('dynamodb')
 STATE_TABLE = DYNAMODB.Table('gameday-messages-state')
@@ -61,7 +61,6 @@ def store_message(input_id, part_num, data):
             },
             ConditionExpression="attribute_not_exists(#p)"
         )
-        return True
     except Exception:
         # conditional update failed since we have already processed this message
         # at this point we can bail since we don't want to process again
@@ -126,7 +125,7 @@ def build_final(parts, msg_id):
     resp = urllib2.urlopen(req)
     resp.close()
 
-def get_message_stats(MESSAGES):
+def get_message_stats():
     """
     provides a status that players can check
     """
