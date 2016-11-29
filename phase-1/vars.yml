@@ -22,7 +22,7 @@ ssh_key_name: cowtipping_kp
 
 # The name for the EC2 launch configuration and autoscaling group to be created. For more about this
 # resource, see `server.yml`
-#launch_config: <NameOfLaunchConfig>
-#autoscaling_group: <NameOfAutoscalingGroup>
+launch_config: <CowTipping_LC>
+autoscaling_group: <CowTipping_ASG>
 
 # the AWS region to use, for the gameday please use eu-central-1
