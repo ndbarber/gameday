@@ -2,14 +2,14 @@
 - name: search for the latest rhel 7 ami
   ec2_ami_find:
     region: eu-central-1
-    owner: "309956199498"
+    owner: "984270631125"
     name: "RHEL-7.3*"
   register: find_results
 
-- debug: 
+- debug:
     msg: "{{find_results}}"
     verbosity: 2
-    
+
 - ec2_vpc_net_facts:
     region: eu-central-1
     filters:
