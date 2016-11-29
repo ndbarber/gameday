@@ -1,0 +1,20 @@
+#!/bin/bash
+set -ex
+echo "STEP: installing dependencies"
+yum install -y git python-setuptools wget
+easy_install pip
+pip install Flask requests
+
+echo "STEP: Clone and chown app code"
+wget -O /home/ec2-user/server.py https://s3-us-west-2.amazonaws.com/gameday-resources/server.py
+chown -R ec2-user:ec2-user /home/ec2-user/server.py
+chmod 0755 /home/ec2-user/server.py
+
+echo "STEP: configure pidfile and logs"
+touch /var/run/gameday.pid
+chown ec2-user:ec2-user /var/run/gameday.pid
+touch /var/log/gameday.log
+chown ec2-user:ec2-user /var/log/gameday.log
+
+echo "STEP: start webapp"
+nohup python /home/ec2-user/server.py {{ scoring.api_token }} {{ scoring.url }} >/var/log/gameday.log 2>&1 & echo \$! > /var/run/gameday.pid

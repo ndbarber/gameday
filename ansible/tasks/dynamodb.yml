@@ -1,0 +1,7 @@
+- dynamodb_table:
+    name: "gameday-messages-state"
+    region: eu-central-1
+    hash_key_name: Id
+    hash_key_type: STRING
+    read_capacity: 5
+    write_capacity: 5

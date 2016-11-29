@@ -1,0 +1,24 @@
+---
+- set_fact:
+    iam_exec_role: "{{ iam_exec_arn }}"
+    # function_name: # Name your function
+
+- name: AWS Lambda Function
+  lambda:
+    region: eu-central-1
+    name: "{{ function_name }}"
+    description: lambda function to take unicorn rental messages and send them to the scoring API
+    zip_file: # Some zip bundle goes here?
+    runtime: python2.7
+    timeout: 20
+    handler: # This needs the filename of the ZIP file - without the extension - and the main handler name
+    memory_size: 1024
+    role: "{{ iam_exec_role }}"
+  register: lambda_results
+
+- name: "alias 'dev' for function {{ function_name }}"
+  lambda_alias:
+    region: eu-central-1
+    function_name: "{{ function_name }}"
+    name: dev
+    description: Development is always the $LATEST version
