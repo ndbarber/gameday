@@ -123,7 +123,7 @@ def build_final(parts, msg_id):
     resp = urllib2.urlopen(req)
     resp.close()
 
-def get_message_stats():
+def get_message_stats(MESSAGES):
     """
     provides a status that players can check
     """
