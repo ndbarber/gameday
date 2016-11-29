@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+  - include_vars: vars.yml
+  - include: tasks/server.yml

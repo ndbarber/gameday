@@ -1,0 +1,34 @@
+---
+- ec2_vpc:
+    state: present
+    region: eu-central-1
+    cidr_block: 172.16.0.0/16
+    resource_tags:
+      tool: ansible
+      Name: "{{ team_name }}-vpc"
+    subnets:
+      - cidr: 172.16.1.0/24
+        az: eu-central-1a
+        resource_tags:
+          tool: ansible
+          Name: subnet-a
+      - cidr: 172.16.2.0/24
+        az: eu-central-1b
+        resource_tags:
+          tool: ansible
+          Name: subnet-b
+    internet_gateway: True
+    route_tables:
+      - subnets:
+         - 172.16.1.0/24
+         - 172.16.2.0/24
+        routes:
+          - dest: 0.0.0.0/0
+            gw: igw
+  register: network
+- debug: 
+    msg: "Created VPC named unicorn-vpc with 3 available subnets"
+    verbosity: 2
+- debug: 
+    msg: "{{ network.vpc_id }}"
+    verbosity: 2

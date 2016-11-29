@@ -11,6 +11,7 @@ from flask import Flask, request
 import logging
 import argparse
 import urllib2
+import requests
 
 # logging.basicConfig(level=logging.DEBUG)
 
@@ -23,7 +24,7 @@ ARGS = PARSER.parse_args()
 
 # defining global vars
 MESSAGES = {} # A dictionary that contains message parts
-API_BASE = ARGS.API_base
+API_BASE = 'https://dashboard.cash4code.net/score'
 # 'https://csm45mnow5.execute-api.us-west-2.amazonaws.com/dev'
 
 APP = Flask(__name__)
@@ -86,6 +87,7 @@ def process_message(msg):
         print resp
 
     return 'OK'
+
 
 if __name__ == "__main__":
 

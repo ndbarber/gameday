@@ -1,0 +1,28 @@
+---
+# Pick a UNIQUE team name. This is important because it will be used in the
+# names of things, so take some time to come up with a good one.
+# Don't take BuffaloBill, because that's mine.
+team_name: <TheTeamName>
+
+scoring:
+  # In your gameday team dashboard, there will be an API token that looks like
+  # this. To get points you MUST CHANGE THIS
+  api_token: "<TheAPITokenGivenToTheTeam>"
+  # The scoring URL should not need to be changed
+  url: "https://dashboard.cash4code.net/score"
+
+# The AWS CLI profile you'll be using for the game
+# Ansible uses these credentials as well, so follow the instructions here:
+# http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-set-up.html
+# And use the `aws configure` command to set up a profile that connects to your
+# gameday AWS account
+
+# Go to the EC2 console and make an SSH keypair, then put its name here
+ssh_key_name: <SSHKeyName>
+
+# The name for the EC2 launch configuration and autoscaling group to be created. For more about this
+# resource, see `server.yml`
+#launch_config: <NameOfLaunchConfig>
+#autoscaling_group: <NameOfAutoscalingGroup>
+
+# the AWS region to use, for the gameday please use eu-central-1
